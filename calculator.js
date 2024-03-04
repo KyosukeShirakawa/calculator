@@ -1,12 +1,89 @@
-var displayValue = document.querySelector('.display');
+const display = document.querySelector('.display');
+const numBtn = document.querySelectorAll('.number-button');
+const clrBtn = document.querySelector('.clear-btn');
+const addBtn = document.querySelector('.add-btn');
+const subtBtn = document.querySelector('.subt-btn');
+const multBtn = document.querySelector('.mult-btn');
+const diviBtn = document.querySelector('.divi-btn');
+const equalBtn = document.querySelector('.equal-btn');
+
+var displayedValue = '';
+var firstNum = '';
+var secondNum = '';
+var operator = '';
 
 
+// event listener for the buttons
+numBtn.forEach((btn) => {
+  btn.addEventListener('click', () => {
+     displayedValue += btn.textContent;
+    display.innerHTML = displayedValue;
+  })
+});
+
+clrBtn.addEventListener( 'click', () => {
+  displayedValue = '';
+  display.innerHTML = displayedValue;
+
+});
+
+addBtn.addEventListener('click', () => {
+  operator = addBtn.textContent;
+  firstNum = parseInt(displayedValue);
+  displayedValue += operator;
+  display.innerHTML = displayedValue;
+});
+subtBtn.addEventListener('click', () => {
+  operator = subtBtn.textContent;
+  firstNum = parseInt(displayedValue);
+  displayedValue += operator;
+  display.innerHTML = displayedValue;
+
+});
+multBtn.addEventListener('click', () => {
+  operator = multBtn.textContent;
+  firstNum = parseInt(displayedValue);
+  displayedValue += operator;
+  display.innerHTML = displayedValue;
+
+});
+diviBtn.addEventListener('click', () => {
+  operator = diviBtn.textContent;
+  firstNum = parseInt(displayedValue);
+  displayedValue += operator;
+  display.innerHTML = displayedValue;
+
+});
+
+equalBtn.addEventListener('click', () => {
+
+  secondNum = parseInt(displayedValue.substring((displayedValue.indexOf(operator)-1, displayedValue.length-1)))
+  //console.log(`second num is ${secondNum}`);
+  var result = operate(firstNum, secondNum, operator);
+  display.innerHTML = result;
+  displayedValue = result;
+  firstNum = result;
+  secondNum = '';
+
+
+  console.log(`first num: ${firstNum}, second num: ${secondNum}, displayedValue: ${displayedValue}`);
+
+
+
+
+
+
+});
+
+
+
+
+// Calculator logic
 function operate(a, b, ope) {
-  var num1 =a;
-  var num2 =b;
-  var operator = ope;
+  num1 =a;
+  num2 =b;
 
-  switch(operator) {
+  switch(ope) {
     case '+':
       return add(num1, num2);
     case '-':
@@ -19,20 +96,17 @@ function operate(a, b, ope) {
       return "No operator found";
   }
 }
-console.log(operate(1, 2, '+'));
-console.log(operate(1, 2, '-'));
-console.log(operate(1, 2, '*'));
-console.log(operate(1, 2, '/'));
 
-function add(num1, num2) {
-  return num1+num2;
+
+function add(a, b) {
+  return a+b;
 }
-function subtract(num1, num2) {
-  return num1-num2;
+function subtract(a, b) {
+  return a-b;
 }
-function multiply(num1, num2) {
-  return num1*num2;
+function multiply(a, b) {
+  return a*b;
 }
-function divide(num1, num2) {
-  return num1/num2;
+function divide(a, b) {
+  return a/b;
 }
