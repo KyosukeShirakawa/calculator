@@ -1,6 +1,83 @@
-.display {
-  background-color: grey;
-  border-radius: 5px;
-  width: 120px;
-  height: 30px;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.btn {
+  height: 50px;
+  width: 50px;
+  margin: 8px;
+  font-size: 50px;
+}
+
+button.numbers {
+  border: 1px solid greenyellow;
+  border-radius: 10px;
+}
+button.numbers:hover {
+  background-color: greenyellow;
+}
+
+button.operator {
+  border: 1px solid purple;
+  border-radius: 10px;
+}
+button.operator:hover {
+  background-color: purple;
+}
+button.equal {
+  border: 1px solid paleturquoise;
+  border-radius: 10px;
+}
+
+button.equal:hover {
+  background-color: paleturquoise;
+}
+
+button.decimal {
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
+button.decimal:hover {
+  background-color: red;
+}
+
+#clear-btn {
+  border: 1px solid green;
+  border-radius: 10px;
+}
+
+#clear-btn:hover {
+  background-color: green;
+}
+
+.first-row, 
+.other-rows{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#screen {
+  width: 182px;
+  border: 1px solid salmon;
+  height: 50px;
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.previous {
+  font-size: 10px;
+}
+
+.current {
+  font-size: 25px;
 }

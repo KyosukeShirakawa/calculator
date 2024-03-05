@@ -1,112 +1,93 @@
-const display = document.querySelector('.display');
-const numBtn = document.querySelectorAll('.number-button');
-const clrBtn = document.querySelector('.clear-btn');
-const addBtn = document.querySelector('.add-btn');
-const subtBtn = document.querySelector('.subt-btn');
-const multBtn = document.querySelector('.mult-btn');
-const diviBtn = document.querySelector('.divi-btn');
-const equalBtn = document.querySelector('.equal-btn');
-
-var displayedValue = '';
-var firstNum = '';
-var secondNum = '';
-var operator = '';
+let operator = '';
+let previousValue = '';
+let currentValue = '';
 
 
-// event listener for the buttons
-numBtn.forEach((btn) => {
-  btn.addEventListener('click', () => {
-     displayedValue += btn.textContent;
-    display.innerHTML = displayedValue;
+document.addEventListener("DOMContentLoaded", () => {
+  //Store components on HTML
+  let clear = document.querySelector('#clear-btn');
+  let equal = document.querySelector('.equal');
+  let decimal = document.querySelector('.decimal');
+
+  let numbers = document.querySelectorAll('.numbers');
+  let operators = document.querySelectorAll('.operator');
+  let previousScreen = document.querySelector('.previous');
+  let currentScreen = document.querySelector('.current')
+
+  numbers.forEach ((number) => number.addEventListener('click', (e) => {
+    handleNumber(e.target.textContent);
+    currentScreen.textContent = currentValue;
+  }))
+
+  operators.forEach ((op) => op.addEventListener('click', (e) => {
+    hadnleOperator(e.target.textContent);
+    previousScreen.textContent = previousValue + " " + operator;
+    currentScreen.textContent = currentValue;
+  }))
+
+  clear.addEventListener('click',  () => {
+    previousValue = '';
+    currentValue = '';
+    operator = '';
+    previousScreen.textContent = currentValue;
+    currentScreen.textContent = currentValue;
+
   })
-});
 
-clrBtn.addEventListener( 'click', () => {
-  displayedValue = '';
-  display.innerHTML = displayedValue;
+  equal.addEventListener('click', () => {
+    if(currentValue != '' && previousValue != ''){
+      calculate();
+      previousScreen.textContent = '';
+      if(previousValue.length <= 5){
+        currentScreen.textContent = previousValue;
+      } else {
+        currentScreen.textContent = previousValue.slice(0,5) + "...";
+      }
+    }
+  })
 
-});
-
-addBtn.addEventListener('click', () => {
-  operator = addBtn.textContent;
-  firstNum = parseInt(displayedValue);
-  displayedValue += operator;
-  display.innerHTML = displayedValue;
-});
-subtBtn.addEventListener('click', () => {
-  operator = subtBtn.textContent;
-  firstNum = parseInt(displayedValue);
-  displayedValue += operator;
-  display.innerHTML = displayedValue;
-
-});
-multBtn.addEventListener('click', () => {
-  operator = multBtn.textContent;
-  firstNum = parseInt(displayedValue);
-  displayedValue += operator;
-  display.innerHTML = displayedValue;
-
-});
-diviBtn.addEventListener('click', () => {
-  operator = diviBtn.textContent;
-  firstNum = parseInt(displayedValue);
-  displayedValue += operator;
-  display.innerHTML = displayedValue;
-
-});
-
-equalBtn.addEventListener('click', () => {
-
-  secondNum = parseInt(displayedValue.substring((displayedValue.indexOf(operator)-1, displayedValue.length-1)))
-  //console.log(`second num is ${secondNum}`);
-  var result = operate(firstNum, secondNum, operator);
-  display.innerHTML = result;
-  displayedValue = result;
-  firstNum = result;
-  secondNum = '';
-
-
-  console.log(`first num: ${firstNum}, second num: ${secondNum}, displayedValue: ${displayedValue}`);
-
-
-
-
+  decimal.addEventListener('click', () => {
+    addDecimal();
+  })
 
 
 });
 
+function handleNumber(num) {
+  if(currentValue.length <= 5){
+    currentValue += num;
+  } 
+}
+function hadnleOperator(op) {
+  operator = op;
+  previousValue = currentValue;
+  currentValue = '';
+}
 
-
-
-// Calculator logic
-function operate(a, b, ope) {
-  num1 =a;
-  num2 =b;
-
-  switch(ope) {
-    case '+':
-      return add(num1, num2);
-    case '-':
-      return subtract(num1, num2);
-    case '*':
-      return multiply(num1, num2);
-    case '/':
-      return divide(num1, num2);
-    default:
-      return "No operator found";
+function calculate(){
+  previousValue =  Number(previousValue);
+  currentValue = Number(currentValue);
+  if(operator==='+'){
+     previousValue+=currentValue
+  }else if(operator==='-'){
+    previousValue-=currentValue 
+  }else if(operator==='*'){
+    previousValue*=currentValue
+  }else if(operator==='/'){
+    previousValue/=currentValue
   }
+
+  previousValue = roundNumber(previousValue);
+  previousValue = previousValue.toString();
+  currentValue = previousValue.toString();
 }
 
+function roundNumber(num) {
+  return Math.round(num * 1000)/1000;
+}
 
-function add(a, b) {
-  return a+b;
-}
-function subtract(a, b) {
-  return a-b;
-}
-function multiply(a, b) {
-  return a*b;
-}
-function divide(a, b) {
-  return a/b;
+function addDecimal() {
+  if(!currentValue.includes(".")){
+    currentValue += '.';
+  }
 }
